@@ -1,0 +1,50 @@
+From: Simon McVittie <smcv@collabora.com>
+Date: Mon, 23 Sep 2019 15:37:05 +0100
+Subject: showimage: Add a -quit option
+
+This allows showimage to be used as a non-interactive smoke-test to
+check that the SDL2_image library can be linked against successfully,
+for example as used in the Steam Runtime:
+
+    xvfb-run ./showimage -quit -save debian-logo.bmp /usr/share/pixmaps/debian-logo.png
+
+Signed-off-by: Simon McVittie <smcv@collabora.com>
+Applied-upstream: 2.0.6, commit:dec2e6e30c53341a0d0db615e5ed8c26217977b9
+---
+ showimage.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/showimage.c b/showimage.c
+index d6a144c..bb304e1 100644
+--- a/showimage.c
++++ b/showimage.c
+@@ -58,7 +58,8 @@ int main(int argc, char *argv[])
+     SDL_Renderer *renderer;
+     SDL_Texture *texture;
+     Uint32 flags;
+-    int i, w, h, done;
++    int i, w, h;
++    int done = 0;
+     SDL_Event event;
+     const char *saveFile = NULL;
+ 
+@@ -91,6 +92,11 @@ int main(int argc, char *argv[])
+             continue;
+         }
+ 
++        if ( SDL_strcmp(argv[i], "-quit") == 0 ) {
++            done = 1;
++            continue;
++        }
++
+         if ( SDL_strcmp(argv[i], "-save") == 0 && argv[i+1] ) {
+             ++i;
+             saveFile = argv[i];
+@@ -131,7 +137,6 @@ int main(int argc, char *argv[])
+         SDL_SetWindowSize(window, w, h);
+         SDL_ShowWindow(window);
+ 
+-        done = 0;
+         while ( ! done ) {
+             while ( SDL_PollEvent(&event) ) {
+                 switch (event.type) {

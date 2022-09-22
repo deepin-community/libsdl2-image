@@ -1,0 +1,186 @@
+libsdl2-image (2.0.5+dfsg1-3) UNRELEASED; urgency=medium
+
+  * update
+
+ -- Debian SDL packages maintainers <pkg-sdl-maintainers@lists.alioth.debian.org>  Thu, 19 May 2022 10:23:35 +0800
+
+libsdl2-image (2.0.5+dfsg1-3) unstable; urgency=medium
+
+  * Team upload
+  * d/p/showimage-Add-a-quit-option.patch:
+    Add patch to add a -quit option to the showimage example.
+    This allows it to be used as a non-interactive smoke-test.
+  * d/tests: Add an autopkgtest using the modified showimage.
+    Taken from the libsdl2-image package in the Steam Runtime.
+  * Add a .symbols file
+  * Re-export upstream signing key without extra signatures.
+  * Drop transition for old debug package migration.
+  * d/rules: Rely on debhelper compat 12 for dh_makeshlibs.
+    With a .symbols file, the version passed to dh_makeshlibs is only a
+    fallback.
+    debhelper compat level 12 defaults to generating dependencies on the
+    current upstream version, which is what's in stable. More relaxed
+    dependencies aren't particularly useful, because we don't support
+    skipping a release anyway.
+  * d/rules: Remove unnecessary override for dh_compress.
+    debhelper compat level 12 doesn't compress examples anyway.
+  * Use debhelper compat level 13.
+    Drop dh_missing --fail-missing override: this is now the default.
+  * Standards-Version: 4.6.0 (no changes required)
+
+ -- Simon McVittie <smcv@debian.org>  Thu, 28 Oct 2021 19:20:29 +0100
+
+libsdl2-image (2.0.5+dfsg1-2) unstable; urgency=medium
+
+  * Cherry-pick upstream fix for CVE-2019-13616. (Closes: #940934)
+
+ -- Felix Geyer <fgeyer@debian.org>  Mon, 03 Feb 2020 23:02:06 +0100
+
+libsdl2-image (2.0.5+dfsg1-1) unstable; urgency=medium
+
+  * New upstream version, fixing various security issues: (Closes: #932754)
+    - CVE-2019-5051
+    - CVE-2019-5052
+    - CVE-2019-7635
+    - CVE-2019-12216
+    - CVE-2019-12217
+    - CVE-2019-12218
+    - CVE-2019-12219
+    - CVE-2019-12220
+    - CVE-2019-12221
+    - CVE-2019-12222
+  * Switch to debhelper compat level 12.
+
+ -- Felix Geyer <fgeyer@debian.org>  Tue, 23 Jul 2019 23:15:23 +0200
+
+libsdl2-image (2.0.4+dfsg1-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Drop CVE-2018-3977.patch, applied upstream.
+  * Verify signature of upstream tarball.
+
+ -- Felix Geyer <fgeyer@debian.org>  Sun, 03 Feb 2019 11:59:26 +0100
+
+libsdl2-image (2.0.3+dfsg1-3) unstable; urgency=high
+
+  * Non-maintainer upload with permission of maintainers.
+  * CVE-2018-3977: Prevent a potential buffer overflow on a corrupt or
+    maliciously-crafted XCF file. (Closes: #912617)
+
+ -- Chris Lamb <lamby@debian.org>  Sun, 04 Nov 2018 23:34:39 +0000
+
+libsdl2-image (2.0.3+dfsg1-2) unstable; urgency=medium
+
+  [ Manuel A. Fernandez Montecelo ]
+  * Bump Policy Standards-Version to 4.2.1 (no changes needed)
+  * d/watch:
+    - Set to version=4
+    - Update +dsfg mangling to correctly detect upstream version
+  * Switch to debhelper compat level v11
+  * d/copyright: use https in format URL
+  * d/control: Set "Rules-Requires-Root: no"
+
+ -- Chris Lamb <lamby@debian.org>  Sun, 04 Nov 2018 23:34:37 +0000
+
+libsdl2-image (2.0.3+dfsg1-1) unstable; urgency=medium
+
+  * New upstream release, fixing various security issues:
+    - CVE-2017-12122
+    - CVE-2017-14440
+    - CVE-2017-14441
+    - CVE-2017-14442
+    - CVE-2017-14448
+    - CVE-2017-14449
+    - CVE-2017-14450
+  * Requires libsdl2 >= 2.0.8
+
+ -- Felix Geyer <fgeyer@debian.org>  Sun, 04 Mar 2018 15:50:05 +0100
+
+libsdl2-image (2.0.2+dfsg1-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream version 2.0.2+dfsg1.
+  * Bump SHLIBVER, as INTERFACE_AGE has been reset in configure.in.
+  * Remove patches backported from upstream.
+  * Fix shlib symlink.
+  * Move the dbgsym-migration parameter to the dh_strip call.
+
+ -- Fabian Greffrath <fabian@debian.org>  Fri, 10 Nov 2017 13:46:09 +0100
+
+libsdl2-image (2.0.1+dfsg-4) unstable; urgency=medium
+
+  [ Manuel A. Fernandez Montecelo ]
+  * d/copyright: Fix missing "General" in LGPL license
+
+  [ Felix Geyer ]
+  * Fix CVE-2017-2887: buffer overflow in the XCF property handling.
+    (Closes: #878266)
+
+ -- Felix Geyer <fgeyer@debian.org>  Wed, 18 Oct 2017 22:09:02 +0200
+
+libsdl2-image (2.0.1+dfsg-3) unstable; urgency=medium
+
+  * Bump Policy Standards-Version to 4.0.0 (no changes needed)
+  * Update Vcs-* URLs
+  * Switch to debhelper compat level v10
+    - dh flags --parallel are not needed
+    - autoreconf is invoked by default
+  * Use automatic dbgsym packages, drop -dbg
+
+ -- Manuel A. Fernandez Montecelo <mafm@debian.org>  Mon, 31 Jul 2017 23:43:58 +0200
+
+libsdl2-image (2.0.1+dfsg-2) unstable; urgency=low
+
+  * Team upload.
+  * d/rules: Update shlib and .so symlink to the current version
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Wed, 27 Jan 2016 09:34:58 +0100
+
+libsdl2-image (2.0.1+dfsg-1) unstable; urgency=low
+
+  * Team upload.
+  [ Manuel A. Fernandez Montecelo ]
+  * Build-Depends on pkg-config
+  * Bump Policy Standards-Version to 3.9.6 (no changes needed)
+
+  [ Gianfranco Costamagna ]
+  * New upstream release (Closes: #812620).
+  * Use Files-Excluded copyright keyword to exclude autogenerated
+    files from tarball.
+  * Remove patch about big endian build fix, it should be fixed upstream.
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Mon, 25 Jan 2016 10:12:59 +0100
+
+libsdl2-image (2.0.0+dfsg-3) unstable; urgency=low
+
+  * Really regenerate autoconf files. The upstream autogen.sh doesn't
+    work properly. Thanks to Pino Toscano for the patch.
+    - Fixes FTBFS on hurd.
+
+ -- Felix Geyer <fgeyer@debian.org>  Sun, 08 Sep 2013 11:16:14 +0200
+
+libsdl2-image (2.0.0+dfsg-2) unstable; urgency=low
+
+  * Tighten libsdl2-dev dependency to 2.0.0 and bump the shlibver to 2.0.0,
+    thanks to Gianfranco Costamagna for the patch.
+  * Fix FTBFS on big endian architectures.
+    - Add fix_ftbfs_big_endian.patch
+
+ -- Felix Geyer <fgeyer@debian.org>  Sun, 25 Aug 2013 11:26:16 +0200
+
+libsdl2-image (2.0.0+dfsg-1) unstable; urgency=low
+
+  * New upstream release.
+  * Add a watch file.
+  * Remove external/ from upstream tarball.
+  * Document miniz.h license in debian/copyright.
+
+ -- Felix Geyer <fgeyer@debian.org>  Wed, 21 Aug 2013 09:44:44 +0200
+
+libsdl2-image (2.0.0~rc1+dfsg-1) unstable; urgency=low
+
+  * Initial release. (Closes: #710698)
+  * Filter upstream tarball to remove precompiled binaries that don't
+    ship with the corresponding source code.
+
+ -- Felix Geyer <fgeyer@debian.org>  Fri, 12 Jul 2013 17:38:44 +0200

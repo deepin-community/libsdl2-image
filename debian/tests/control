@@ -1,0 +1,10 @@
+Tests: libsdl2-image-dev
+Restrictions: allow-stderr, rw-build-tree, superficial
+Depends:
+ build-essential,
+ debconf,
+ file,
+ libsdl2-image-dev,
+ pkg-config,
+ xauth,
+ xvfb,

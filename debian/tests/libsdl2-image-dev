@@ -1,0 +1,45 @@
+#!/bin/sh
+# Copyright 2019 Collabora Ltd.
+# SPDX-License-Identifier: Zlib
+# (see "zlib/libpng" in debian/copyright)
+
+set -eux
+
+if [ -n "${AUTOPKGTEST_ARTIFACTS-}" ]; then
+	WORKDIR="$AUTOPKGTEST_ARTIFACTS"
+else
+	WORKDIR="$(mktemp -d)"
+	trap 'cd /; rm -fr "$WORKDIR"' 0 INT QUIT ABRT PIPE TERM
+fi
+
+# Make sure the source tree is in a patches-applied state
+dpkg-source --before-build .
+
+if [ -n "${DEB_HOST_GNU_TYPE:-}" ]; then
+    CROSS_COMPILE="$DEB_HOST_GNU_TYPE-"
+else
+    CROSS_COMPILE=
+fi
+
+# This is shipped in the debconf package
+cp /usr/share/pixmaps/debian-logo.png "$WORKDIR"
+cp ./showimage.c "$WORKDIR"
+
+cd "$WORKDIR"
+
+# Deliberately word-splitting pkg-config's output:
+# shellcheck disable=SC2046
+"${CROSS_COMPILE}gcc" -oshowimage showimage.c $("${CROSS_COMPILE}pkg-config" --cflags --libs SDL2_image)
+
+set -- ./showimage
+
+if [ -z "${TEST_INTERACTIVE-}" ]; then
+	echo "(export TEST_INTERACTIVE=1 for an interactive test)"
+	set -- xvfb-run -s '-screen 0 1280x1024x24' "$@" -quit
+fi
+
+set -- "$@" -save debian-logo.bmp debian-logo.png
+
+"$@"
+
+file debian-logo.bmp

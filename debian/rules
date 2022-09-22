@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+# export variables for autoreconf
+export AUTOMAKE := automake --foreign
+
+
+# features -- disable building as plugins, otherwise dh_shlibs
+confflags =  --disable-jpg-shared
+confflags += --disable-tif-shared
+confflags += --disable-png-shared
+confflags += --disable-webp-shared
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	dh_auto_configure -- $(confflags)
+
+override_dh_installchangelogs:
+	dh_installchangelogs -- CHANGES.txt
+
+override_dh_link:
+	# fix lintian warning dev-pkg-without-shlib-symlink
+	dh_link -plibsdl2-image-dev usr/lib/$(DEB_HOST_MULTIARCH)/libSDL2_image-2.0.so.0 usr/lib/$(DEB_HOST_MULTIARCH)/libSDL2_image-2.0.so
+	dh_link --remaining-packages
