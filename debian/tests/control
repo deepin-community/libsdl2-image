@@ -1,10 +1,18 @@
 Tests: libsdl2-image-dev
-Restrictions: allow-stderr, rw-build-tree, superficial
+Restrictions: allow-stderr, superficial
 Depends:
  build-essential,
+ cmake,
  debconf,
  file,
  libsdl2-image-dev,
- pkg-config,
+ ninja-build,
+ pkgconf,
  xauth,
  xvfb,
+
+Tests: installed-tests
+Restrictions: allow-stderr, superficial
+Depends:
+ gnome-desktop-testing,
+ libsdl2-image-tests,

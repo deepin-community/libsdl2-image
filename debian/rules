@@ -1,22 +1,71 @@
 #!/usr/bin/make -f
 
-DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+export DEB_BUILD_MAINT_OPTIONS := hardening=+all
+
+include /usr/share/dpkg/default.mk
+
+built_binaries := $(shell dh_listpackages)
 
 # export variables for autoreconf
 export AUTOMAKE := automake --foreign
 
+confflags =
+confflags += --enable-tests
+confflags += --enable-installed-tests
+
+# using libjpeg and libpng is straightforward in Debian
+confflags += --disable-stb-image
+
+# doesn't seem to be in demand yet
+confflags += --disable-avif
+
+# doesn't seem to be stable yet
+confflags += --disable-jxl
 
 # features -- disable building as plugins, otherwise dh_shlibs
-confflags =  --disable-jpg-shared
+# cannot keep track of what we depend on
+confflags += --disable-avif-shared
+confflags += --disable-jpg-shared
+confflags += --disable-jxl-shared
 confflags += --disable-tif-shared
 confflags += --disable-png-shared
 confflags += --disable-webp-shared
+
+# Assert that we support all the formats that we think we should support
+export SDL_IMAGE_TEST_REQUIRE_LOAD_AVIF=0
+export SDL_IMAGE_TEST_REQUIRE_LOAD_BMP=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_CUR=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_GIF=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_ICO=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_JPG=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_JXL=0
+export SDL_IMAGE_TEST_REQUIRE_LOAD_LBM=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_PCX=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_PNG=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_PNM=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_QOI=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_SVG=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_TGA=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_TIF=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_WEBP=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_XPM=1
+export SDL_IMAGE_TEST_REQUIRE_LOAD_XV=1
+
+export SDL_IMAGE_TEST_REQUIRE_SAVE_JPG=1
+export SDL_IMAGE_TEST_REQUIRE_SAVE_PNG=1
 
 %:
 	dh $@
 
 override_dh_auto_configure:
 	dh_auto_configure -- $(confflags)
+
+override_dh_auto_install:
+	dh_auto_install
+	./libtool --mode=install install \
+		showanim \
+		showimage \
+		$(CURDIR)/debian/tmp/usr/libexec/installed-tests/SDL2_image/
 
 override_dh_installchangelogs:
 	dh_installchangelogs -- CHANGES.txt
@@ -25,3 +74,11 @@ override_dh_link:
 	# fix lintian warning dev-pkg-without-shlib-symlink
 	dh_link -plibsdl2-image-dev usr/lib/$(DEB_HOST_MULTIARCH)/libSDL2_image-2.0.so.0 usr/lib/$(DEB_HOST_MULTIARCH)/libSDL2_image-2.0.so
 	dh_link --remaining-packages
+
+# debhelper >= 13.4 makes all of /usr/libexec executable, which is not
+# quite right for installed-tests
+override_dh_fixperms:
+	dh_fixperms -Xusr/libexec/installed-tests
+ifneq ($(filter %-tests,$(built_binaries)),)
+	chmod --recursive --changes a+rX,u+w,og-w debian/*-tests/usr/libexec/installed-tests
+endif

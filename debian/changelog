@@ -1,8 +1,270 @@
-libsdl2-image (2.0.5+dfsg1-3) UNRELEASED; urgency=medium
+libsdl2-image (2.8.4+dfsg-1) unstable; urgency=medium
 
-  * update
+  * New upstream stable release (release-2.8.4-0-g4641fd7)
+  * d/copyright: SDL2_image.spec is no longer distributed
+  * d/salsa-ci.yml: Add
+  * Standards-Version: 4.7.0 (no changes required)
+  * Depend on pkgconf, which replaced pkg-config
 
- -- Debian SDL packages maintainers <pkg-sdl-maintainers@lists.alioth.debian.org>  Thu, 19 May 2022 10:23:35 +0800
+ -- Simon McVittie <smcv@debian.org>  Mon, 30 Dec 2024 16:20:23 +0000
+
+libsdl2-image (2.8.2+dfsg-1) unstable; urgency=medium
+
+  * New upstream stable release
+  * d/copyright: Update
+
+ -- Simon McVittie <smcv@debian.org>  Tue, 02 Jan 2024 17:12:38 +0000
+
+libsdl2-image (2.8.1+dfsg-1) unstable; urgency=medium
+
+  * New upstream release
+    - no functional changes for the way we compile it in Debian
+      (all of the changes were in vendored libraries, which Debian
+      excludes, or in the STB image loader, which Debian does not enable)
+
+ -- Simon McVittie <smcv@debian.org>  Fri, 15 Dec 2023 11:53:05 +0000
+
+libsdl2-image (2.8.0+dfsg-1) unstable; urgency=medium
+
+  * New upstream release
+  * Drop the only patch, no longer needed
+  * d/copyright: Update
+  * Update symbols file
+  * d/libsdl2-image-dev.examples, d/tests: Update for new directory layout
+  * d/clean: Fix FTBFS-twice-in-a-row by deleting files created by tests
+    (Closes: #1049222)
+  * d/gbp.conf: Only sign packaging tags
+  * d/gbp.conf: Use DEP-14 branch names
+  * d/gbp.conf: Rely on uscan to repack upstream source.
+    This will use Files-Excluded in d/copyright, rather than separate
+    configuration.
+
+ -- Simon McVittie <smcv@debian.org>  Thu, 07 Dec 2023 10:50:59 +0000
+
+libsdl2-image (2.6.3+dfsg-2) unstable; urgency=medium
+
+  * d/upstream/metadata: Add Repository field
+  * d/tests: Run Xvfb with -noreset to make the test more reliable.
+    See #981201.
+  * d/tests: Instruct xvfb-run to choose a server number automatically
+  * d/p/Update-README.txt.patch:
+    Add patch from upstream to point to the SDL2-specific documentation.
+    The SDL_image wiki namespace now refers to the SDL3 version under
+    development.
+  * d/watch: Only watch for 2.x versions.
+    The upstream 'main' branch now targets SDL 3 (under development), and
+    should be packaged separately as a libsdl3-image source package.
+
+ -- Simon McVittie <smcv@debian.org>  Sat, 15 Jul 2023 18:05:40 +0100
+
+libsdl2-image (2.6.3+dfsg-1) unstable; urgency=medium
+
+  [ Simon McVittie ]
+  * New upstream stable release
+    - Fix loading of 4-bit .ico, .cur files
+  * Drop patches that were applied upstream
+  * Remove version constraints unnecessary since Debian 10
+  * Update standards version to 4.6.2 (no changes needed)
+  * d/copyright: Update
+
+  [ Debian Janitor ]
+  * d/upstream/metadata: Add
+
+ -- Simon McVittie <smcv@debian.org>  Thu, 09 Feb 2023 09:14:01 +0000
+
+libsdl2-image (2.6.2+dfsg-2) unstable; urgency=medium
+
+  * d/watch: Update for Github website changes
+  * d/p/Fix-wrong-size-malloc-and-minor-memleak.patch,
+    d/p/Replace-free-usage-with-SDL_free.patch:
+    Add minor memory leak fix from upstream release-2.6.x branch
+
+ -- Simon McVittie <smcv@debian.org>  Fri, 28 Oct 2022 18:16:50 +0100
+
+libsdl2-image (2.6.2+dfsg-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Simon McVittie <smcv@debian.org>  Mon, 29 Aug 2022 21:32:22 +0100
+
+libsdl2-image (2.6.0+dfsg-1) unstable; urgency=medium
+
+  * New upstream release
+  * d/libsdl2-image-2.0-0.symbols: Use stable release for new symbols.
+    We don't need to keep track of which specific prerelease introduced
+    each symbol, now that we have a new stable release.
+  * d/watch: Only look for stable releases
+  * d/rules: Enable full compiler hardening
+  * Switch branch for upload to unstable
+
+ -- Simon McVittie <smcv@debian.org>  Sat, 09 Jul 2022 14:55:05 +0100
+
+libsdl2-image (2.5.2+dfsg-1) experimental; urgency=medium
+
+  * New upstream prerelease
+  * d/watch: Don't download Windows binaries, etc.
+  * d/watch: Download prereleases for experimental
+  * Add myself to Uploaders
+  * Drop all patches, included in the new release
+  * d/libsdl2-image-dev.install: Install the new CMake metadata
+  * d/tests: Exercise a CMake build
+
+ -- Simon McVittie <smcv@debian.org>  Fri, 17 Jun 2022 10:58:16 +0100
+
+libsdl2-image (2.5.1+dfsg-2) experimental; urgency=medium
+
+  * Team upload
+  * Standards-Version: 4.6.1 (no changes required)
+  * d/patches: Add nanosvg fixes from upstream git
+  * d/rules, d/tests/installed-tests: Assert that we support all the
+    expected formats (everything supported upstream except AVIF and JXL)
+
+ -- Simon McVittie <smcv@debian.org>  Mon, 30 May 2022 16:41:27 +0100
+
+libsdl2-image (2.5.1+dfsg-1+newqueue) experimental; urgency=medium
+
+  * Team upload
+  * Move automated test into a new libsdl2-image-tests package.
+    This means it can be moved back to the paths canonically used by
+    installed-tests without breaking multiarch co-installability, and
+    ginsttest-runner does not need to be told to search a non-default
+    directory.
+  * Install showanim and showimage sample programs as manual tests.
+    Their names are too namespace-polluting to be on $PATH, so put them in
+    /usr/libexec/installed-tests/SDL2_image alongside the automated tests.
+
+ -- Simon McVittie <smcv@debian.org>  Thu, 26 May 2022 13:10:36 +0100
+
+libsdl2-image (2.5.1+dfsg-1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream prerelease
+    - Fix loading PCX files that need alignment between rows
+  * Revert addition of libsdl2-image-tests to avoid getting stuck in NEW
+  * d/watch: Download releases from Github
+  * d/copyright: Remove exclusion patterns that are no longer needed
+  * d/watch: Don't download prereleases by default
+
+ -- Simon McVittie <smcv@debian.org>  Thu, 26 May 2022 12:37:56 +0100
+
+libsdl2-image (2.5.0~git20220525+g2b8e888+dfsg-2) experimental; urgency=medium
+
+  * Team upload
+  * Move automated test into a new libsdl2-image-tests package.
+    This means it can be moved back to the paths canonically used by
+    installed-tests without breaking multiarch co-installability, and
+    ginsttest-runner does not need to be told to search a non-default
+    directory.
+  * Install showanim and showimage sample programs as manual tests.
+    Their names are too namespace-polluting to be on $PATH, so put them in
+    /usr/libexec/installed-tests/SDL2_image alongside the automated tests.
+
+ -- Simon McVittie <smcv@debian.org>  Wed, 25 May 2022 17:38:45 +0100
+
+libsdl2-image (2.5.0~git20220525+g2b8e888+dfsg-1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream git snapshot
+    - Fix test failure on s390x and other big-endian architectures
+  * Bump required libsdl2-dev to 2.0.9
+  * d/.gitignore: Add
+  * d/copyright: Update
+
+ -- Simon McVittie <smcv@debian.org>  Wed, 25 May 2022 17:05:00 +0100
+
+libsdl2-image (2.5.0~git20220524+g7eb9ae3+dfsg-1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream git snapshot
+  * d/copyright: Update
+  * Build and install tests
+  * Run installed tests using autopkgtest
+  * Move installed-tests to libsdl2-image-dev for now.
+    Adding libsdl2-image-tests will require passing the NEW queue.
+
+ -- Simon McVittie <smcv@debian.org>  Tue, 24 May 2022 18:12:39 +0100
+
+libsdl2-image (2.5.0~git20220517.gcec4127+dfsg-1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream git snapshot
+  * Update symbols file
+
+ -- Simon McVittie <smcv@debian.org>  Thu, 19 May 2022 12:39:32 +0100
+
+libsdl2-image (2.5.0~git20220516.g99e0e81+dfsg-1-1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream git snapshot
+  * d/gbp.conf, d/copyright: Stop removing IMG_UIImage.m.
+    It was deleted upstream.
+
+ -- Simon McVittie <smcv@debian.org>  Mon, 16 May 2022 14:24:18 +0100
+
+libsdl2-image (2.5.0~git20220512.g686ad26+dfsg-1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream git snapshot
+    - d/copyright: Update
+    - d/rules: Update dependency options
+    - Update symbols
+  * Disable AVIF support for now
+
+ -- Simon McVittie <smcv@debian.org>  Thu, 12 May 2022 19:50:27 +0100
+
+libsdl2-image (2.5.0~git20220508.g406fd40+dfsg-1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream git snapshot
+    - Update symbols file with new ABI from development branch
+  * Disable JPEG XL support for now.
+    libjxl is only available in experimental and doesn't look as though it's
+    necessarily fully API-stable.
+
+ -- Simon McVittie <smcv@debian.org>  Mon, 09 May 2022 17:03:51 +0100
+
+libsdl2-image (2.0.6~20220415.g915b794+dfsg-1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream snapshot
+
+ -- Simon McVittie <smcv@debian.org>  Wed, 20 Apr 2022 18:36:32 +0100
+
+libsdl2-image (2.0.6~20220301.g3c8c09d3+dfsg-1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream snapshot
+  * Add -dev dependencies that are listed in the .pc file
+
+ -- Simon McVittie <smcv@debian.org>  Wed, 02 Mar 2022 20:33:34 +0000
+
+libsdl2-image (2.0.6~20220107.g656ef58+dfsg-1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream snapshot
+  * d/copyright: Update
+  * d/libsdl2-image-2.0-0.symbols: Add QOI decoder
+  * d/libsdl2-image-2.0-0.symbols: Ignore removal of IMG_InitJPG, etc.
+    These were never intended to be public, and are not in the header file.
+    Upstream commit f0b3945 changed their visibility to hidden.
+
+ -- Simon McVittie <smcv@debian.org>  Fri, 07 Jan 2022 13:55:38 +0000
+
+libsdl2-image (2.0.6~20211214.g704e516+dfsg-1) experimental; urgency=medium
+
+  * Team upload
+  * Branch for experimental
+  * New upstream snapshot
+    - Drop patches, applied upstream
+    - d/copyright: Update.
+      The LGPL parts of IMG_png.c have been relicensed by their author.
+    - d/libsdl2-image-2.0-0.symbols: Ignore removal of private nsvg symbols.
+      This is deliberate, as per upstream commit 31ce11c5.
+  * d/copyright, d/gbp.conf: Filter more generated/vendored files.
+    If we're repacking the tarball *anyway*, we might as well exclude these
+    too. They'll be restored by dh_autoreconf.
+
+ -- Simon McVittie <smcv@debian.org>  Tue, 14 Dec 2021 20:27:11 +0000
 
 libsdl2-image (2.0.5+dfsg1-3) unstable; urgency=medium
 
