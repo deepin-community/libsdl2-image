@@ -1,1 +1,2 @@
-showimage.c
+examples/showanim.c
+examples/showimage.c

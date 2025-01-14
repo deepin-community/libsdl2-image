@@ -12,9 +12,6 @@ else
 	trap 'cd /; rm -fr "$WORKDIR"' 0 INT QUIT ABRT PIPE TERM
 fi
 
-# Make sure the source tree is in a patches-applied state
-dpkg-source --before-build .
-
 if [ -n "${DEB_HOST_GNU_TYPE:-}" ]; then
     CROSS_COMPILE="$DEB_HOST_GNU_TYPE-"
 else
@@ -23,19 +20,22 @@ fi
 
 # This is shipped in the debconf package
 cp /usr/share/pixmaps/debian-logo.png "$WORKDIR"
-cp ./showimage.c "$WORKDIR"
+cp examples/showimage.c "$WORKDIR"
+mkdir "$WORKDIR/cmake"
+cp ./cmake/test/CMakeLists.txt "$WORKDIR/cmake"
+cp ./cmake/test/main.c "$WORKDIR/cmake"
 
 cd "$WORKDIR"
 
-# Deliberately word-splitting pkg-config's output:
+# Deliberately word-splitting pkgconf's output:
 # shellcheck disable=SC2046
-"${CROSS_COMPILE}gcc" -oshowimage showimage.c $("${CROSS_COMPILE}pkg-config" --cflags --libs SDL2_image)
+"${CROSS_COMPILE}gcc" -oshowimage showimage.c $("${CROSS_COMPILE}pkgconf" --cflags --libs SDL2_image)
 
 set -- ./showimage
 
 if [ -z "${TEST_INTERACTIVE-}" ]; then
 	echo "(export TEST_INTERACTIVE=1 for an interactive test)"
-	set -- xvfb-run -s '-screen 0 1280x1024x24' "$@" -quit
+	set -- xvfb-run -a -s '-screen 0 1280x1024x24 -noreset' "$@" -quit
 fi
 
 set -- "$@" -save debian-logo.bmp debian-logo.png
@@ -43,3 +43,11 @@ set -- "$@" -save debian-logo.bmp debian-logo.png
 "$@"
 
 file debian-logo.bmp
+
+if [ -z "${DEB_HOST_GNU_TYPE:-}" ]; then
+    mkdir cmake/_build
+    ( cd cmake/_build; cmake -GNinja -DTEST_SHARED=ON -DTEST_STATIC=ON .. )
+    ninja -C cmake/_build
+    ./cmake/_build/main_shared
+    ./cmake/_build/main_static
+fi

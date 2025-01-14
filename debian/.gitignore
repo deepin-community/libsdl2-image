@@ -1,0 +1,11 @@
+/*.debhelper.log
+/*.substvars
+/.debhelper/
+/autoreconf.after
+/autoreconf.before
+/debhelper-build-stamp
+/files
+/libsdl2-image-2.0-0/
+/libsdl2-image-dev/
+/libsdl2-image-tests/
+/tmp/
