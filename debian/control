@@ -2,8 +2,6 @@ Source: libsdl2-image
 Maintainer: Debian SDL packages maintainers <pkg-sdl-maintainers@lists.alioth.debian.org>
 Uploaders: Felix Geyer <fgeyer@debian.org>, Manuel A. Fernandez Montecelo <mafm@debian.org>, Simon McVittie <smcv@debian.org>
 Section: libs
-Priority: optional
-Rules-Requires-Root: no
 Build-Depends: debhelper-compat (= 13),
                libsdl2-dev,
                libjpeg-dev,
@@ -12,8 +10,8 @@ Build-Depends: debhelper-compat (= 13),
                libwebp-dev,
                pkgconf,
                zlib1g-dev
-Standards-Version: 4.7.0
-Homepage: https://www.libsdl.org/projects/SDL_image/
+Standards-Version: 4.7.4
+Homepage: https://github.com/libsdl-org/SDL_image
 Vcs-Browser: https://salsa.debian.org/sdl-team/libsdl2-image
 Vcs-Git: https://salsa.debian.org/sdl-team/libsdl2-image.git
 

@@ -1,3 +1,54 @@
+libsdl2-image (2.8.10+dfsg-1) unstable; urgency=medium
+
+  * New upstream release
+    - Fixes an out of bounds read in the XCF image loader
+      (CVE-2026-35444) (Closes: #1133010)
+  * d/patches: Add more fixes for malformed image files, from upstream
+  * d/control: Remove Priority field, no longer needed
+  * d/control: Standards-Version: 4.7.4 (no changes required)
+
+ -- Simon McVittie <smcv@debian.org>  Fri, 10 Apr 2026 19:59:26 +0100
+
+libsdl2-image (2.8.8+dfsg-2) unstable; urgency=medium
+
+  * d/rules, d/tests, d/libsdl2-image-dev.install:
+    Don't build a static library.
+    This won't be practically useful when "classic" SDL2 is replaced by
+    sdl2-compat, which needs a shared SDL3 anyway.
+  * d/watch*: Update to uscan format v5
+  * d/control: Remove Rules-Requires-Root: no, unnecessary since Debian 13
+
+ -- Simon McVittie <smcv@debian.org>  Sat, 20 Dec 2025 14:40:50 +0000
+
+libsdl2-image (2.8.8+dfsg-1) unstable; urgency=medium
+
+  * New upstream stable release
+  * d/p/Revert-Fixed-partial-alpha-in-ICO-and-CUR-images.patch:
+    Remove workaround, no longer necessary
+  * Standards-Version: 4.7.2 (no changes required)
+
+ -- Simon McVittie <smcv@debian.org>  Tue, 04 Mar 2025 09:59:59 +0000
+
+libsdl2-image (2.8.6+dfsg-2) unstable; urgency=medium
+
+  * Revert .ico, .cur alpha change pending investigation
+
+ -- Simon McVittie <smcv@debian.org>  Mon, 03 Mar 2025 19:32:22 +0000
+
+libsdl2-image (2.8.6+dfsg-1) unstable; urgency=medium
+
+  * New upstream stable release
+
+ -- Simon McVittie <smcv@debian.org>  Mon, 03 Mar 2025 09:45:29 +0000
+
+libsdl2-image (2.8.5+dfsg-1) unstable; urgency=medium
+
+  * New upstream stable release
+  * d/copyright: Update
+  * d/control, d/copyright: Update upstream URL references to point to Github
+
+ -- Simon McVittie <smcv@debian.org>  Sat, 08 Feb 2025 13:21:09 +0000
+
 libsdl2-image (2.8.4+dfsg-1) unstable; urgency=medium
 
   * New upstream stable release (release-2.8.4-0-g4641fd7)

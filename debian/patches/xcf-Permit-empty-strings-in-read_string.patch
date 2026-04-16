@@ -1,0 +1,32 @@
+From: "Ryan C. Gordon" <icculus@icculus.org>
+Date: Mon, 6 Apr 2026 14:53:45 -0400
+Subject: xcf: Permit empty strings in read_string().
+
+(cherry picked from commit 1da905ae95748edbf063102574be5f25ff42ae39)
+Bug: https://github.com/libsdl-org/SDL_image/issues/716
+Origin: upstream, 2.8.11, commit:2d2928376e1e044fd9e501d25e6e39e71b8fb85c
+---
+ src/IMG_xcf.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/src/IMG_xcf.c b/src/IMG_xcf.c
+index a1683ec..ed7d203 100644
+--- a/src/IMG_xcf.c
++++ b/src/IMG_xcf.c
+@@ -233,7 +233,15 @@ static char * read_string (SDL_RWops * src) {
+ 
+   tmp = SDL_ReadBE32(src);
+   remaining = SDL_RWsize(src) - SDL_RWtell(src);
+-  if (tmp > 0 && (Sint32)tmp <= remaining) {
++  if (tmp == 0) {
++    data = (char *) SDL_malloc(1);
++    if (data) {
++      data[0] = 0;
++    }
++    return data;
++  }
++
++  if ((Sint32)tmp <= remaining) {
+     data = (char *) SDL_malloc (sizeof (char) * tmp);
+     if (data) {
+       SDL_RWread(src, data, tmp, 1);

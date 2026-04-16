@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: SDL_image
 Upstream-Contact: Sam Lantinga <slouken@libsdl.org>
-Source: http://www.libsdl.org/projects/SDL_image/
+Source: https://github.com/libsdl-org/SDL_image/releases
 Files-Excluded: Makefile.in
                 VisualC
                 VisualC-WinRT
@@ -23,7 +23,7 @@ Files-Excluded: Makefile.in
                 test/Makefile.in
 
 Files: *
-Copyright: 1997-2024 Sam Lantinga
+Copyright: 1997-2025 Sam Lantinga
            1990, 1991, 1993 David Koblas
            1996 Torsten Martinsen
            1998 Philippe Lavoie

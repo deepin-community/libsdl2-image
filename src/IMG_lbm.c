@@ -1,6 +1,6 @@
 /*
   SDL_image:  An example image loading library for use with SDL
-  Copyright (C) 1997-2024 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -231,6 +231,13 @@ SDL_Surface *IMG_LoadLBM_RW( SDL_RWops *src )
     bytesperline = ( ( bmhd.w + 15 ) / 16 ) * 2;
 
     nbplanes = bmhd.planes;
+
+    /* Sanity check: nbplanes must not exceed 8 for paletted images.
+       Higher values cause 1<<nbplanes to exceed the 256-entry palette. */
+    if ( !pbm && nbplanes > 8 && nbplanes != 24 && flagHAM == 0 ) {
+        SDL_SetError("LBM: invalid number of bitplanes (%u)", nbplanes);
+        goto done;
+    }
 
     if ( pbm )                         /* File format : 'Packed Bitmap' */
     {
