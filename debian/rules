@@ -9,7 +9,11 @@ built_binaries := $(shell dh_listpackages)
 # export variables for autoreconf
 export AUTOMAKE := automake --foreign
 
-confflags =
+confflags :=
+# Static SDL2-based libraries are no longer useful with sdl2-compat,
+# which needs a shared SDL3 anyway
+confflags += --enable-shared
+confflags += --disable-static
 confflags += --enable-tests
 confflags += --enable-installed-tests
 

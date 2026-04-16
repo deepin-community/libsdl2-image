@@ -1,0 +1,32 @@
+From: Jorge Barredo Ferreira <jorgebarredo14@gmail.com>
+Date: Mon, 6 Apr 2026 19:30:53 +0200
+Subject: Fix heap-buffer-overflow READ in XCF do_layer_surface (CWE-122)
+
+Add bounds check for tile buffer access in do_layer_surface.
+
+(cherry picked from commit 5b0d414cae99b2e162a1e46ecba4fcd7ac8c5d85)
+Origin: upstream, 2.8.11, commit:3796a0bc0c45c1a3fed4b43c697e75c5061d4d67
+---
+ src/IMG_xcf.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/src/IMG_xcf.c b/src/IMG_xcf.c
+index ed7d203..f067746 100644
+--- a/src/IMG_xcf.c
++++ b/src/IMG_xcf.c
+@@ -700,6 +700,15 @@ do_layer_surface(SDL_Surface * surface, SDL_RWops * src, xcf_header * head, xcf_
+ 
+             p8 = tile;
+             p = (Uint32 *) p8;
++
++            /* Bounds check: reject layer if tile data exceeds buffer */
++            if ((Uint64)ox * oy * hierarchy->bpp > (Uint64)(hierarchy->width * hierarchy->height * hierarchy->bpp)) {
++                free_xcf_tile(tile);
++                free_xcf_level(level);
++                free_xcf_hierarchy(hierarchy);
++                return 1;
++            }
++
+             for (y = ty; y < ty + oy; y++) {
+                 if ((y >= (Uint32)surface->h) || ((tx+ox) > (Uint32)surface->w)) {
+                     break;

@@ -1,0 +1,6 @@
+xpm-Remove-QUICK_COLORHASH-replace-it-with-inline-code-th.patch
+Fix-heap-buffer-overflow-WRITE-in-LBM-palette-CWE-122.patch
+xcf-Permit-empty-strings-in-read_string.patch
+Fix-heap-buffer-overflow-READ-in-XCF-do_layer_surface-CWE.patch
+xcf-Added-an-SDL_SetError-when-rejecting-out-of-bounds-ti.patch
+xcf-Fix-heap-buffer-overflow-READ-in-XCF-RLE-decoder-CWE-.patch

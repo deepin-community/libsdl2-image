@@ -1,6 +1,6 @@
 /*
   SDL_image:  An example image loading library for use with SDL
-  Copyright (C) 1997-2024 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -156,9 +156,6 @@ static int add_colorhash(struct color_hash *hash,
     hash->table[index] = e;
     return 1;
 }
-
-/* fast lookup that works if cpp == 1 */
-#define QUICK_COLORHASH(hash, key) ((hash)->table[*(Uint8 *)(key)]->color)
 
 static Uint32 get_colorhash(struct color_hash *hash, const char *key, int cpp)
 {
@@ -1132,9 +1129,11 @@ static SDL_Surface *load_xpm(char **xpm, SDL_RWops *src, SDL_bool force_32bit)
         if (indexed) {
             /* optimization for some common cases */
             if (cpp == 1)
-                for (x = 0; x < w; x++)
-                    dst[x] = (Uint8)QUICK_COLORHASH(colors,
-                                 line + x);
+                for (x = 0; x < w; x++) {
+                    /* fast lookup that works if cpp == 1 */
+                    const struct hash_entry *entry = colors->table[*(Uint8 *)(line + x)];
+                    dst[x] = entry ? (Uint8) entry->color : 0;
+                }
             else
                 for (x = 0; x < w; x++)
                     dst[x] = (Uint8)get_colorhash(colors,

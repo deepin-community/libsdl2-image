@@ -1,12 +1,13 @@
-version=4
-# Upstream releases official Autotools 'make dist' tarballs, so we use
+Version: 5
+
+# Upstream releases official source tarballs, so we use
 # those in preference to git tags
-opts="\
-    compression=gzip, \
-    dversionmangle=s/\+(?:git)?[0-9]*(?:\+g[0-9a-f]*)//;s/[+~](?:ds|dfsg)[0-9]*//, \
-    downloadurlmangle=s#/tag/#/download/#;s#((?:pre)?release-?@ANY_VERSION@)$#$1/SDL2_image-$2.tar.gz#, \
-    filenamemangle=s#(?:pre)?release-?@ANY_VERSION@#SDL2_image-$1.tar.gz#, \
-    pgpmode=auto, \
-    repack, \
-    repacksuffix=+dfsg" \
-https://github.com/libsdl-org/SDL_image/tags .*/releases/tag/release-?(2\.[0-9.]+)
+Source: https://github.com/libsdl-org/SDL_image/tags
+Matching-Pattern: .*/releases/tag/(?:release)-?(2\.[0-9.]+)
+Compression: gzip
+Download-Url-Mangle: s#/tag/#/download/#;s#((?:prerelease|preview|release)-?@ANY_VERSION@)$#$1/SDL2_image-$2.tar.gz#
+Dversion-Mangle: s/[+~](?:ds|dfsg)[0-9]*$//;s/\+(?:git)?[0-9]+(?:\+g[0-9a-f]*)?$//
+Filename-Mangle: s#(?:prerelease|preview|release)-?@ANY_VERSION@#SDL2_image-$1.tar.gz#
+Pgp-Mode: auto
+Repack: yes
+Repack-Suffix: +dfsg

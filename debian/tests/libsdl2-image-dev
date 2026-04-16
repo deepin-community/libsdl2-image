@@ -46,8 +46,7 @@ file debian-logo.bmp
 
 if [ -z "${DEB_HOST_GNU_TYPE:-}" ]; then
     mkdir cmake/_build
-    ( cd cmake/_build; cmake -GNinja -DTEST_SHARED=ON -DTEST_STATIC=ON .. )
+    ( cd cmake/_build; cmake -GNinja -DTEST_SHARED=ON -DTEST_STATIC=OFF .. )
     ninja -C cmake/_build
     ./cmake/_build/main_shared
-    ./cmake/_build/main_static
 fi
